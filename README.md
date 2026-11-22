@@ -1,165 +1,199 @@
-# Ejemplo de ambiente productivo
-### MLOps1 - CEIA - FIUBA
-Estructura de servicios para la implementación del proyecto final de MLOps1 - CEIA - FIUBA
+# Clasificación de objetos astronómicos (SDSS) con Airflow, MLflow y MinIO
 
-Supongamos que trabajamos para **ML Models and something more Inc.**, la cual ofrece un servicio que proporciona modelos mediante una REST API. Internamente, tanto para realizar tareas de DataOps como de MLOps, la empresa cuenta con varios servicios que ayudan a ejecutar las acciones necesarias. También dispone de un Data Lake en S3, para este caso, simularemos un S3 utilizando MinIO.
+Trabajo final de MLOps1 (CEIA, FIUBA). El proyecto clasifica objetos del catálogo
+[SDSS DR17](https://skyserver.sdss.org/dr17/) en tres clases, **GALAXY**, **QSO** y **STAR**, a partir de
+cinco bandas fotométricas (`u`, `g`, `r`, `i`, `z`) y cuatro colores (`u-g`, `g-r`, `r-i`, `i-z`).
 
-Para simular esta empresa, utilizaremos Docker y, a través de Docker Compose, desplegaremos varios contenedores que representan distintos servicios en un entorno productivo.
+Todo el ciclo corre localmente con Docker Compose:
 
-Los servicios que contamos son:
-- [Apache Airflow](https://airflow.apache.org/)
-- [MLflow](https://mlflow.org/)
-- API Rest para servir modelos ([FastAPI](https://fastapi.tiangolo.com/))
-- [MinIO](https://min.io/)
-- Base de datos relacional [PostgreSQL](https://www.postgresql.org/)
-- Base de dato key-value [ValKey](https://valkey.io/) 
+1. **Ingesta:** un DAG de Airflow descarga una muestra aleatoria de SDSS, revisa que haya suficientes
+   ejemplos de cada clase y la guarda en MinIO (un S3 local) con su hash SHA-256.
+2. **Entrenamiento:** otro DAG busca hiperparámetros con Optuna, entrena un modelo de scikit-learn y lo
+   registra en MLflow.
+3. **Promoción:** el modelo candidato reemplaza al `champion` solo si mejora el F1 weighted en el mismo
+   conjunto de test.
+4. **Uso:** una web local predice la clase de un objeto con el modelo `champion` vigente.
 
-![Diagrama de servicios](final_assign.png)
+## Arquitectura
 
-Por defecto, cuando se inician los multi-contenedores, se crean los siguientes buckets:
+![Arquitectura de servicios](docs/diagramas/arquitectura.svg)
 
-- `s3://data`
-- `s3://mlflow` (usada por MLflow para guardar los artefactos).
+| Servicio | Función | Dirección local |
+|---|---|---|
+| Apache Airflow 3.0.2 | Orquesta los DAG (ejecutor Celery) | http://localhost:8080 (`airflow` / `airflow`) |
+| MLflow | Seguimiento de experimentos y registro de modelos | http://localhost:5001 |
+| MinIO | Almacenamiento S3 (buckets `data` y `mlflow`) | consola http://localhost:9001 (`minio` / `minio123`), API en el puerto 9000 |
+| PostgreSQL | Bases `airflow` y `mlflow_db` | puerto 5432 |
+| Valkey | Broker de Celery para Airflow | sin puerto expuesto |
+| Web estelar | Predicción con el modelo `champion` (corre fuera de Docker) | http://localhost:8801 |
+| FastAPI Heart Disease | Ejemplo heredado del ambiente base, solo con el perfil `all` | http://localhost:8800 |
 
-y las siguientes bases de datos:
+Las credenciales y los puertos son valores para desarrollo local. Pueden cambiarse en `.env`.
 
-- `mlflow_db` (usada por MLflow).
-- `airflow` (usada por Airflow).
+## Los DAG
 
-## Tarea a realizar
+![DAG de ingesta y DAG de entrenamiento](docs/diagramas/dags.svg)
 
-La tarea es implementar el modelo que desarrollaron en Aprendizaje de Máquina en este ambiente productivo. Para ello, pueden usar y crear los buckets y bases de datos que necesiten. Lo mínimo que deben realizar es:
+### `process_etl_star_data` (ingesta)
 
-- Un DAG en Apache Airflow. Puede ser cualquier tarea que se desee realizar, como entrenar el modelo, un proceso ETL, etc.
-- Un experimento en MLflow de búsqueda de hiperparámetros.
-- Servir el modelo implementado en AMq1 en el servicio de RESTAPI.
-- Documentar (comentarios y docstring en scripts, notebooks, y asegurar que la documentación de FastAPI esté de acuerdo al modelo).
+Es un DAG manual. Consulta SDSS DR17 con la API SQL (une `PhotoObj` y `SpecObj`, filtra
+`scienceprimary = 1`) y toma hasta 1000 objetos aleatorios con `ORDER BY NEWID()`. Sus tareas:
 
-Desde **ML Models and something more Inc.** autorizan a extender los requisitos mínimos. También pueden utilizar nuevos servicios (por ejemplo, una base de datos no relacional, otro orquestador como MetaFlow, un servicio de API mediante NodeJs, etc.).
+- `descargar_muestra`: descarga la muestra.
+- `revisar_clases` (`@task.branch`): cuenta las filas de cada clase y compara la clase más escasa con el
+  parámetro **`min_rows_per_class`** (30 por defecto, editable al lanzar el DAG).
+- `remuestrear`: se ejecuta solo si la muestra no alcanza el mínimo. Hace hasta 3 descargas en total
+  (contando la primera) y conserva la que tiene más filas en su clase más escasa. Si ninguna alcanza el
+  mínimo, deja una advertencia en el log y guarda igualmente la mejor, por lo que el DAG termina en verde.
+- `guardar_snapshot`: guarda el CSV y registra la ingesta en MLflow.
 
-### Ejemplo 
+Resultados de cada ejecución:
 
-El [branch `example_implementation`](https://github.com/facundolucianna/amq2-service-ml/tree/example_implementation) contiene un ejemplo de aplicación para guiarse. Se trata de una implementación de un modelo de clasificación utilizando los datos de [Heart Disease](https://archive.ics.uci.edu/dataset/45/heart+disease).
+- `s3://data/raw/star/starset.csv`: la muestra más reciente.
+- `s3://data/raw/star/snapshots/<sha256>.csv`: una copia identificada por su hash.
+- Un run en el experimento `star type` de MLflow, con los tags `stage=ingestion` y `dataset.sha256`.
 
-Además se cuenta con una implementación ejemplo de predicción en bache con una parte que funciona gran parte de local en [branch `batch-example`](https://github.com/facundolucianna/amq2-service-ml/tree/example_implementation)
+Para probar el camino de remuestreo, lanza el DAG con `min_rows_per_class = 9999`.
 
-## Instalación
+### `train_star_model` (entrenamiento)
 
-1. Para poder levantar todos los servicios, primero instala [Docker](https://docs.docker.com/engine/install/) en tu computadora (o en el servidor que desees usar).
-2. Clona este repositorio.
-3. Si estás en Linux o MacOS, en el archivo `.env`, reemplaza `AIRFLOW_UID` por el de tu usuario o alguno que consideres oportuno (para encontrar el UID, usa el comando `id -u <username>`). De lo contrario, Airflow dejará sus carpetas internas como root y no podrás subir DAGs (en `airflow/dags`) o plugins, etc.
-4. En la carpeta raíz de este repositorio, ejecuta:
+Es un DAG manual, con seis tareas independientes que corren en un entorno Python preinstalado en la imagen
+(`star-venv`):
 
-```bash
-docker compose --profile all up
-```
+| Tarea | Qué hace |
+|---|---|
+| `resolve_snapshot` | Toma la última ingesta exitosa (o el hash indicado) y verifica el CSV |
+| `search_hyperparameters` | Búsqueda con Optuna y validación cruzada de 5 folds |
+| `train_and_log_model` | Entrena el Pipeline completo (scaler y modelo) |
+| `evaluate_candidate` | Recarga el modelo y mide F1 weighted y macro en el conjunto de test |
+| `register_candidate` | Crea una versión nueva de `star_type_model_prod`, sin mover el alias |
+| `compare_and_promote_champion` | Compara candidato y `champion` en el mismo test; promueve solo si el F1 weighted mejora |
 
-5. Una vez que todos los servicios estén funcionando (verifica con el comando `docker ps -a` que todos los servicios estén healthy o revisa en Docker Desktop), podrás acceder a los diferentes servicios mediante:
-   - Apache Airflow: http://localhost:8080
-   - MLflow: http://localhost:5001
-   - MinIO: http://localhost:9001 (ventana de administración de Buckets)
-   - API: http://localhost:8800/
-   - Documentación de la API: http://localhost:8800/docs
+| Parámetro | Valor por defecto | Uso |
+|---|---|---|
+| `n_trials` | 250 | Pruebas de Optuna. Usa 2 o 5 para una prueba rápida |
+| `seed` | 42 | Partición train/test y semilla de Optuna |
+| `snapshot_sha256` | vacío | Vacío usa la última ingesta exitosa; también acepta un hash concreto |
+| `min_delta` | 0.0 | Mejora mínima de F1 exigida para promover |
 
-Si estás usando un servidor externo a tu computadora de trabajo, reemplaza `localhost` por su IP (puede ser una privada si tu servidor está en tu LAN o una IP pública si no; revisa firewalls u otras reglas que eviten las conexiones).
+Los checkpoints de cada etapa se guardan en `s3://data/training/star/<hash>/`. Si una etapa falla, se puede
+reintentar desde esa tarea sin repetir la búsqueda.
 
-Todos los puertos u otras configuraciones se pueden modificar en el archivo `.env`. Se invita a jugar y romper para aprender; siempre puedes volver a clonar este repositorio.
+La lógica de entrenamiento está en `airflow/dags/star_training/` y también la usa la notebook
+`notebooks/experiment_star_mlflow.ipynb`, que es una alternativa interactiva al DAG.
+
+## Web estelar
+
+La carpeta `star_web/` contiene una web local (FastAPI y una página HTML). Carga hasta 10000 objetos de
+SDSS, permite elegir uno por su `objid` y llama a `POST /api/predict`, que usa el modelo
+`star_type_model_prod@champion` de MLflow. Después de predecir, compara el resultado con la clase de SDSS.
+La documentación interactiva de su API está en http://localhost:8801/docs.
+
+## Inicio rápido
+
+**Requisitos:** Docker con Docker Compose v2 (`docker compose`), al menos 4 GB de memoria para Docker (se
+recomiendan 8 GB), acceso a Docker Hub, PyPI y `skyserver.sdss.org`, y Python 3.11, 3.12 o 3.13 para la web.
+
+1. Clona el repositorio y entra en la carpeta:
+
+   ```bash
+   git clone https://github.com/rmbriend/MLOps_TP_final.git
+   cd MLOps_TP_final
+   ```
+
+2. En Linux o macOS, define tu UID para que Airflow no cree carpetas como `root`. Hazlo en cada terminal
+   nueva, así no modificas el archivo `.env`, que está versionado:
+
+   ```bash
+   export AIRFLOW_UID=$(id -u)
+   ```
+
+3. Construye y levanta los servicios. La primera vez puede tardar varios minutos:
+
+   ```bash
+   docker compose --profile airflow --profile mlflow up -d --build
+   docker compose --profile airflow --profile mlflow ps
+   ```
+
+   Espera a que los servicios estén `healthy`. `airflow-init` y `minio_create_bucket` terminan como
+   `Exited (0)`, lo cual es normal.
+
+4. En Airflow (http://localhost:8080), activa y lanza con **Trigger** primero `process_etl_star_data` y,
+   cuando termine en `success`, `train_star_model`. Para una prueba breve, usa `n_trials = 5`.
+
+5. Cuando exista el modelo `champion`, inicia la web:
+
+   ```bash
+   ./iniciar-web.sh        # Linux o macOS
+   ```
+
+   ```powershell
+   .\iniciar-web.ps1       # Windows (PowerShell)
+   ```
+
+   El script crea un entorno aislado (`.venv-star-web`), instala sus dependencias y abre la web en
+   http://localhost:8801. Detén la web con `Ctrl+C`.
+
+La guía completa, con la verificación de cada paso y los certificados para redes con inspección HTTPS, está
+en [STAR_SETUP.md](STAR_SETUP.md). Está escrita para Windows y PowerShell.
 
 ## Apagar los servicios
 
-Estos servicios ocupan cierta cantidad de memoria RAM y procesamiento, por lo que cuando no se están utilizando, se recomienda detenerlos. Para hacerlo, ejecuta el siguiente comando:
+```bash
+docker compose --profile airflow --profile mlflow down
+```
+
+Este comando conserva los datos, los experimentos y los modelos. **No agregues `-v`** salvo que quieras
+borrar todo, porque eso elimina los volúmenes (MinIO, PostgreSQL y MLflow).
+
+## Pruebas
+
+Estas dos suites no necesitan instalar nada:
 
 ```bash
-docker compose --profile all down
+python -m unittest discover -s tests -p test_star_etl_classes.py   # conteo de clases de la ingesta
+python -m unittest discover -s tests -p test_star_web.py           # web estelar
 ```
 
-Si deseas no solo detenerlos, sino también eliminar toda la infraestructura (liberando espacio en disco), utiliza el siguiente comando:
+`test_star_training.py` y `test_star_workflow.py` requieren las dependencias de
+`notebooks/requirements_star.txt` (pandas, scikit-learn, MLflow y otras).
 
-```bash
-docker compose down --rmi all --volumes
+## Estructura del repositorio
+
+```
+airflow/dags/
+  etl_star_data.py          DAG de ingesta, con ramificación y remuestreo
+  train_star_model.py       DAG de entrenamiento
+  star_sdss_source.py       consulta a SDSS y conteo de clases
+  star_training/            lógica compartida: preparación, Optuna, registro y promoción
+dockerfiles/                imágenes de Airflow, MLflow, PostgreSQL y FastAPI
+docker-compose.yaml         definición de los servicios
+notebooks/                  notebook alternativa y notas del flujo (STAR_WORKFLOW.md)
+star_web/                   web de predicción
+tests/                      pruebas unitarias
+iniciar-web.sh / .ps1       lanzadores de la web (Linux/macOS y Windows)
+docs/diagramas/             diagramas editables (.drawio) y exportados (.svg)
 ```
 
-Nota: Si haces esto, perderás todo en los buckets y bases de datos.
+## Notas y limitaciones
 
-## Aspectos específicos de Airflow
+- La muestra de SDSS es aleatoria, sin semilla en la consulta SQL y sin balanceo de clases. El CSV
+  conservado en MinIO permite reproducirla.
+- La regla de promoción usa solo el F1 weighted. El F1 macro y el reporte por clase se registran, pero no
+  deciden.
+- El conjunto de test participa en la decisión de promoción, así que no es un benchmark independiente. La
+  web puede mostrar objetos que se usaron para entrenar.
+- Esta configuración es solo para desarrollo local: las credenciales son las de ejemplo.
 
-### Variables de entorno
-Airflow ofrece una amplia gama de opciones de configuración. En el archivo `docker-compose.yaml`, dentro de `x-airflow-common`, se encuentran variables de entorno que pueden modificarse para ajustar la configuración de Airflow. Pueden añadirse [otras variables](https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html).
+## Documentación adicional
 
-### Uso de ejecutores externos
-Actualmente, para este caso, Airflow utiliza un ejecutor [celery](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/celery.html), lo que significa que las tareas se ejecutan en otro contenedor. 
+- [STAR_SETUP.md](STAR_SETUP.md): instalación y ejecución paso a paso.
+- [notebooks/STAR_WORKFLOW.md](notebooks/STAR_WORKFLOW.md): preparación de datos D2, búsqueda y registro.
+- [star_web/README.md](star_web/README.md): uso y configuración de la web.
 
-### Uso de la CLI de Airflow
+## Origen y licencia
 
-Si necesitan depurar Apache Airflow, pueden utilizar la CLI de Apache Airflow de la siguiente manera:
-
-```bash
-docker compose --profile all --profile debug up
-```
-
-Una vez que el contenedor esté en funcionamiento, pueden utilizar la CLI de Airflow de la siguiente manera, 
-por ejemplo, para ver la configuración:
-
-```bash
-docker-compose run airflow-cli config list      
-```
-
-Para obtener más información sobre el comando, pueden consultar [aqui](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html).
-
-### Variables y Conexiones
-
-Si desean agregar variables para accederlas en los DAGs, pueden hacerlo en `secrets/variables.yaml`. Para obtener más [información](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/variables.html), 
-consulten la documentación.
-
-Si desean agregar conexiones en Airflow, pueden hacerlo en `secrets/connections.yaml`. También es posible agregarlas mediante la interfaz de usuario (UI), pero estas no persistirán si se borra todo. Por otro lado, cualquier conexión guardada en `secrets/connections.yaml` no aparecerá en la UI, aunque eso no significa que no exista. Consulten la documentación para obtener más 
-[información](https://airflow.apache.org/docs/apache-airflow/stable/authoring-and-scheduling/connections.html).
-
-## Conexión con los buckets
-
-Dado que no estamos utilizando Amazon S3, sino una implementación local de los mismos mediante MinIO, es necesario modificar las variables de entorno para conectar con el servicio de MinIO. Las variables de entorno son las siguientes:
-
-```bash
-AWS_ACCESS_KEY_ID=minio   
-AWS_SECRET_ACCESS_KEY=minio123 
-AWS_ENDPOINT_URL_S3=http://localhost:9000
-```
-
-MLflow también tiene una variable de entorno que afecta su conexión a los buckets:
-
-```bash
-MLFLOW_S3_ENDPOINT_URL=http://localhost:9000
-```
-Asegúrate de establecer estas variables de entorno antes de ejecutar tu notebook o scripts en tu máquina o en cualquier otro lugar. Si estás utilizando un servidor externo a tu computadora de trabajo, reemplaza localhost por su dirección IP.
-
-Al hacer esto, podrás utilizar `boto3`, `awswrangler`, etc., en Python con estos buckets, o `awscli` en la consola.
-
-Si tienes acceso a AWS S3, ten mucho cuidado de no reemplazar tus credenciales de AWS. Si usas las variables de entorno, no tendrás problemas.
-
-## Valkey
-
-La base de datos Valkey es usada por Apache Airflow para su funcionamiento. Tal como está configurado ahora no esta expuesto el puerto para poder ser usado externamente. Se puede modificar el archivo `docker-compose.yaml` para habilitaro.
-
-## Pull Request
-
-Este repositorio está abierto para que realicen sus propios Pull Requests y así contribuir a mejorarlo. Si desean realizar alguna modificación, **¡son bienvenidos!** También se pueden crear nuevos entornos productivos para aumentar la variedad de implementaciones, idealmente en diferentes `branches`. Algunas ideas que se me ocurren que podrían implementar son:
-
-- Reemplazar Airflow y MLflow con [Metaflow](https://metaflow.org/) o [Kubeflow](https://www.kubeflow.org).
-- Reemplazar MLflow con [Seldon-Core](https://github.com/SeldonIO/seldon-core).
-- Agregar un servicio de tableros como, por ejemplo, [Grafana](https://grafana.com).
-
-
-## Flujo de clasificación estelar
-
-Para ejecutar los DAGs de ingesta y entrenamiento, y usar la web, seguir [STAR_SETUP.md](STAR_SETUP.md).
-`train_star_model` comparte código con la notebook y compara/promueve champion en una tarea final independiente.
-Los comandos funcionan desde la carpeta donde se clone o extraiga el repositorio.
-
-Una vez disponibles MLflow, MinIO y el modelo `star_type_model_prod@champion`,
-abrir PowerShell en la raíz del repositorio y ejecutar:
-
-```powershell
-.\iniciar-web.ps1
-```
-
-El lanzador configura un entorno Python aislado y abre el servidor local de la
-web en `http://localhost:8801`. No requiere Anaconda ni una ruta específica.
+La infraestructura de Docker Compose parte del ambiente de ejemplo de la materia
+([amq2-service-ml](https://github.com/facundolucianna/amq2-service-ml), de Facundo Lucianna), cuyo archivo
+`docker-compose.yaml` fue modificado a partir de uno de la Apache Software Foundation. El proyecto se
+distribuye bajo la licencia Apache 2.0 (ver [LICENSE](LICENSE)).

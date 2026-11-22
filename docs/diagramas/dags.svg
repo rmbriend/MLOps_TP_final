@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1340" height="750" viewBox="0 0 1340 750" font-family="Helvetica, Arial, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#333333"/></marker><marker id="s" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M10,0 L0,5 L10,10 z" fill="#333333"/></marker></defs>
+<rect width="1340" height="750" fill="#ffffff"/>
+<rect x="20" y="40" width="1040" height="330" rx="4" fill="#fafafa" stroke="#8a8a8a" stroke-width="1"/>
+<text x="30" y="58" font-size="12" font-weight="bold" fill="#222">DAG process_etl_star_data · ingesta manual · parámetro min_rows_per_class = 30 (editable al lanzar)</text>
+<rect x="20" y="400" width="1040" height="330" rx="4" fill="#fafafa" stroke="#8a8a8a" stroke-width="1"/>
+<text x="30" y="418" font-size="12" font-weight="bold" fill="#222">DAG train_star_model · entrenamiento manual · parámetros: n_trials=250, seed=42, snapshot_sha256, min_delta=0</text>
+<rect x="50" y="72" width="170" height="46" rx="8" fill="#f5f5f5" stroke="#666666" stroke-width="1.2"/>
+<text x="135.0" y="92.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">SDSS DR17</text>
+<text x="135.0" y="106.0" font-size="11" text-anchor="middle" fill="#222">API SQL por HTTPS</text>
+<rect x="50" y="150" width="170" height="90" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="135.0" y="185.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">descargar_muestra</text>
+<text x="135.0" y="199.0" font-size="11" text-anchor="middle" fill="#222">1000 objetos aleatorios</text>
+<text x="135.0" y="213.0" font-size="11" text-anchor="middle" fill="#222">(ORDER BY NEWID())</text>
+<rect x="300" y="145" width="200" height="100" rx="8" fill="#ffe599" stroke="#bf9000" stroke-width="1.2"/>
+<text x="400.0" y="171.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">revisar_clases</text>
+<text x="400.0" y="185.0" font-size="11" text-anchor="middle" fill="#222">(@task.branch)</text>
+<text x="400.0" y="199.0" font-size="11" text-anchor="middle" fill="#222">cuenta las filas por clase y</text>
+<text x="400.0" y="213.0" font-size="11" text-anchor="middle" fill="#222">compara la más escasa con</text>
+<text x="400.0" y="227.0" font-size="11" text-anchor="middle" fill="#222">min_rows_per_class</text>
+<rect x="560" y="275" width="240" height="80" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="680.0" y="298.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">remuestrear</text>
+<text x="680.0" y="312.0" font-size="11" text-anchor="middle" fill="#222">hasta 3 descargas en total</text>
+<text x="680.0" y="326.0" font-size="11" text-anchor="middle" fill="#222">(contando la primera); conserva</text>
+<text x="680.0" y="340.0" font-size="11" text-anchor="middle" fill="#222">la de clase más escasa mayor</text>
+<rect x="840" y="145" width="200" height="100" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="940.0" y="171.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">guardar_snapshot</text>
+<text x="940.0" y="185.0" font-size="11" text-anchor="middle" fill="#222">guarda el CSV en MinIO y</text>
+<text x="940.0" y="199.0" font-size="11" text-anchor="middle" fill="#222">registra la ingesta en MLflow</text>
+<text x="940.0" y="213.0" font-size="11" text-anchor="middle" fill="#222">(corre tras cualquiera de</text>
+<text x="940.0" y="227.0" font-size="11" text-anchor="middle" fill="#222">los dos caminos)</text>
+<rect x="1100" y="100" width="220" height="150" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="1.2"/>
+<text x="1210.0" y="151.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">MinIO (S3)</text>
+<text x="1210.0" y="165.0" font-size="11" text-anchor="middle" fill="#222">raw/star/starset.csv</text>
+<text x="1210.0" y="179.0" font-size="11" text-anchor="middle" fill="#222">raw/star/snapshots/&lt;sha256&gt;.csv</text>
+<text x="1210.0" y="193.0" font-size="11" text-anchor="middle" fill="#222">training/star/&lt;hash&gt;/</text>
+<text x="1210.0" y="207.0" font-size="11" text-anchor="middle" fill="#222">(checkpoints del entrenamiento)</text>
+<rect x="1100" y="400" width="220" height="160" rx="8" fill="#ffe6cc" stroke="#d79b00" stroke-width="1.2"/>
+<text x="1210.0" y="449.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">MLflow · experimento star type</text>
+<text x="1210.0" y="463.0" font-size="11" text-anchor="middle" fill="#222">run de ingesta (stage=ingestion,</text>
+<text x="1210.0" y="477.0" font-size="11" text-anchor="middle" fill="#222">dataset.sha256)</text>
+<text x="1210.0" y="491.0" font-size="11" text-anchor="middle" fill="#222">runs de búsqueda y entrenamiento</text>
+<text x="1210.0" y="505.0" font-size="11" text-anchor="middle" fill="#222">modelo star_type_model_prod</text>
+<text x="1210.0" y="519.0" font-size="11" text-anchor="middle" fill="#222">con el alias champion</text>
+<rect x="40" y="440" width="290" height="80" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="185.0" y="463.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">resolve_snapshot</text>
+<text x="185.0" y="477.0" font-size="11" text-anchor="middle" fill="#222">toma la última ingesta exitosa</text>
+<text x="185.0" y="491.0" font-size="11" text-anchor="middle" fill="#222">(o el hash indicado) y verifica</text>
+<text x="185.0" y="505.0" font-size="11" text-anchor="middle" fill="#222">la integridad del CSV</text>
+<rect x="380" y="440" width="290" height="80" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="525.0" y="463.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">search_hyperparameters</text>
+<text x="525.0" y="477.0" font-size="11" text-anchor="middle" fill="#222">Optuna con validación cruzada</text>
+<text x="525.0" y="491.0" font-size="11" text-anchor="middle" fill="#222">de 5 folds; un run hijo en MLflow</text>
+<text x="525.0" y="505.0" font-size="11" text-anchor="middle" fill="#222">por cada prueba</text>
+<rect x="720" y="440" width="290" height="80" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="865.0" y="463.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">train_and_log_model</text>
+<text x="865.0" y="477.0" font-size="11" text-anchor="middle" fill="#222">entrena el Pipeline completo</text>
+<text x="865.0" y="491.0" font-size="11" text-anchor="middle" fill="#222">(scaler + modelo) con los mejores</text>
+<text x="865.0" y="505.0" font-size="11" text-anchor="middle" fill="#222">hiperparámetros</text>
+<rect x="40" y="570" width="290" height="80" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="185.0" y="593.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">evaluate_candidate</text>
+<text x="185.0" y="607.0" font-size="11" text-anchor="middle" fill="#222">recarga el modelo y mide F1</text>
+<text x="185.0" y="621.0" font-size="11" text-anchor="middle" fill="#222">weighted y macro en el</text>
+<text x="185.0" y="635.0" font-size="11" text-anchor="middle" fill="#222">conjunto de test</text>
+<rect x="380" y="570" width="290" height="80" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="525.0" y="593.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">register_candidate</text>
+<text x="525.0" y="607.0" font-size="11" text-anchor="middle" fill="#222">crea una versión nueva de</text>
+<text x="525.0" y="621.0" font-size="11" text-anchor="middle" fill="#222">star_type_model_prod, sin</text>
+<text x="525.0" y="635.0" font-size="11" text-anchor="middle" fill="#222">mover el alias champion</text>
+<rect x="720" y="570" width="290" height="80" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="865.0" y="593.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">compare_and_promote_champion</text>
+<text x="865.0" y="607.0" font-size="11" text-anchor="middle" fill="#222">compara candidato y champion</text>
+<text x="865.0" y="621.0" font-size="11" text-anchor="middle" fill="#222">en el mismo test; promueve solo</text>
+<text x="865.0" y="635.0" font-size="11" text-anchor="middle" fill="#222">si el F1 weighted mejora</text>
+<rect x="1100" y="600" width="220" height="60" rx="8" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.2"/>
+<text x="1210.0" y="627.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">Web estelar (star_web)</text>
+<text x="1210.0" y="641.0" font-size="11" text-anchor="middle" fill="#222">usa el alias champion</text>
+<text x="40" y="677" font-size="11" fill="#444">Punto de unión entre ambos DAG: train_star_model busca en MLflow la última ingesta exitosa (tag stage=ingestion, dataset.sha256)</text>
+<text x="40" y="691" font-size="11" fill="#444">y lee ese CSV desde MinIO. Los checkpoints de cada etapa se guardan en s3://data/training/star/&lt;hash&gt;/ y permiten reintentar sin repetir la búsqueda.</text>
+<polyline points="135.0,118.0 135.0,150.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="220.0,195.0 300.0,195.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="500.0,170.0 840.0,170.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="400.0,245.0 400.0,315.0 560.0,315.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="800.0,315.0 940.0,315.0 940.0,245.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="1040.0,170.0 1100.0,170.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="1040.0,225.0 1075.0,225.0 1075.0,440.0 1100.0,440.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="330.0,480.0 380.0,480.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="670.0,480.0 720.0,480.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="865.0,520.0 865.0,545.0 185.0,545.0 185.0,570.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="330.0,610.0 380.0,610.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="670.0,610.0 720.0,610.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="1060.0,500.0 1100.0,500.0" fill="none" stroke="#333333" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#a)" marker-start="url(#s)"/>
+<polyline points="1030.0,400.0 1030.0,385.0 1210.0,385.0 1210.0,250.0" fill="none" stroke="#333333" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#a)" marker-start="url(#s)"/>
+<polyline points="1210.0,560.0 1210.0,600.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="235" y="174" width="49" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="260" y="185.5" font-size="10" text-anchor="middle" fill="#333">muestra</text>
+<rect x="556" y="149" width="228" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="670" y="160.5" font-size="10" text-anchor="middle" fill="#333">suficientes (clase más escasa ≥ mínimo)</text>
+<rect x="439" y="294" width="83" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="480" y="305.5" font-size="10" text-anchor="middle" fill="#333">insuficientes</text>
+<rect x="829" y="294" width="83" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="870" y="305.5" font-size="10" text-anchor="middle" fill="#333">mejor muestra</text>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpmZTQzOTUyMi1hNGJjLTQ1YzMtYTY3NS0zYWU5ZTI3MWEzYzAAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaH7FjxLXtE5IOGchPPkflhwAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo5NDAyYzdkMC1kMmI0LTQ5YTAtOGFmMi1hZGJjYjliMGRlMjFscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNob9o4HGhP56cThT+CuGXcXQAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggZdwiceJmKa97EDPYAw38r295uvhiWgvSl4Kc37Eg2k2kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaOBR8zDC1jkziKVH6Y19lUsAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYII/VoF82TussSGpB7Q1TvM90ZmGXKfCAbT6Lmw3CNG06ZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GS42Zmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmZlNDM5NTIyLWE0YmMtNDVjMy1hNjc1LTNhZTllMjcxYTNjMC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjRkMDE5OGVlLTk5NzktNGNmOS1iYjY1LWY4ODNkYThkMWZmMHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCBl3CJx4mYpr3sQM9gDDfyvb3m6+GJaC9KXgpzfsSDaTaJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggqwJEXs98jrmy8w3hD9q6MegFBYyIhRjDWsmOQSirj/qiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggg+GOmrVqdH/EZ3xCCYpBq51BEhZx6kJCZ0S7ldHaD5d0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQPen0scSpUmIQ6yVnXNtb7+UCPyIaH76RMM4wuxM343M1mxwTMUIhspB83qeLdS4EEAx4fjM/adeKyilSiAFRDE=</c2pa:manifest></metadata></svg>

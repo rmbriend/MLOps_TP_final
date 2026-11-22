@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="790" viewBox="0 0 1140 790" font-family="Helvetica, Arial, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#333333"/></marker><marker id="s" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M10,0 L0,5 L10,10 z" fill="#333333"/></marker></defs>
+<rect width="1140" height="790" fill="#ffffff"/>
+<rect x="20" y="100" width="780" height="620" rx="4" fill="#fcfcfc" stroke="#7f7f7f" stroke-width="1"/>
+<text x="30" y="118" font-size="12" font-weight="bold" fill="#222">Docker Compose</text>
+<rect x="900" y="100" width="220" height="300" rx="4" fill="#fbf7fd" stroke="#9673a6" stroke-width="1"/>
+<text x="910" y="118" font-size="12" font-weight="bold" fill="#222">Equipo del usuario (fuera de Docker)</text>
+<rect x="40" y="140" width="300" height="390" rx="4" fill="#f3f7ff" stroke="#6c8ebf" stroke-width="1"/>
+<text x="50" y="158" font-size="12" font-weight="bold" fill="#222">Apache Airflow 3.0.2</text>
+<rect x="500" y="15" width="230" height="60" rx="8" fill="#f5f5f5" stroke="#666666" stroke-width="1.2"/>
+<text x="615.0" y="35.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">SDSS DR17 (SkyServer)</text>
+<text x="615.0" y="49.0" font-size="11" text-anchor="middle" fill="#222">API SQL pública por HTTPS</text>
+<text x="615.0" y="63.0" font-size="11" text-anchor="middle" fill="#222">fuente externa de los datos</text>
+<rect x="52" y="175" width="135" height="46" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="119.5" y="195.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">apiserver</text>
+<text x="119.5" y="209.0" font-size="11" text-anchor="middle" fill="#222">UI y API · :8080</text>
+<rect x="52" y="233" width="135" height="46" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="119.5" y="253.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">scheduler</text>
+<text x="119.5" y="267.0" font-size="11" text-anchor="middle" fill="#222">planifica las tareas</text>
+<rect x="52" y="291" width="135" height="46" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="119.5" y="311.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">dag-processor</text>
+<text x="119.5" y="325.0" font-size="11" text-anchor="middle" fill="#222">lee los DAG</text>
+<rect x="52" y="349" width="135" height="46" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="119.5" y="369.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">triggerer</text>
+<text x="119.5" y="383.0" font-size="11" text-anchor="middle" fill="#222">tareas diferidas</text>
+<rect x="52" y="430" width="135" height="70" rx="8" fill="#f5f5f5" stroke="#666666" stroke-width="1.2"/>
+<text x="119.5" y="455.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">airflow/dags</text>
+<text x="119.5" y="469.0" font-size="11" text-anchor="middle" fill="#222">carpeta montada</text>
+<text x="119.5" y="483.0" font-size="11" text-anchor="middle" fill="#222">como volumen</text>
+<rect x="200" y="175" width="130" height="150" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="265.0" y="219.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">worker</text>
+<text x="265.0" y="233.0" font-size="11" text-anchor="middle" fill="#222">ejecutor Celery</text>
+<text x="265.0" y="247.0" font-size="11" text-anchor="middle" fill="#222">corre los DAG de</text>
+<text x="265.0" y="261.0" font-size="11" text-anchor="middle" fill="#222">ingesta y</text>
+<text x="265.0" y="275.0" font-size="11" text-anchor="middle" fill="#222">entrenamiento</text>
+<text x="265.0" y="289.0" font-size="11" text-anchor="middle" fill="#222">(entorno star-venv)</text>
+<rect x="420" y="165" width="150" height="70" rx="8" fill="#fff2cc" stroke="#d6b656" stroke-width="1.2"/>
+<text x="495.0" y="197.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">Valkey</text>
+<text x="495.0" y="211.0" font-size="11" text-anchor="middle" fill="#222">broker de Celery</text>
+<rect x="610" y="165" width="150" height="70" rx="8" fill="#fff2cc" stroke="#d6b656" stroke-width="1.2"/>
+<text x="685.0" y="197.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">PostgreSQL</text>
+<text x="685.0" y="211.0" font-size="11" text-anchor="middle" fill="#222">BD airflow y mlflow_db</text>
+<rect x="420" y="290" width="340" height="70" rx="8" fill="#ffe6cc" stroke="#d79b00" stroke-width="1.2"/>
+<text x="590.0" y="315.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">MLflow · :5001</text>
+<text x="590.0" y="329.0" font-size="11" text-anchor="middle" fill="#222">Tracking y Model Registry</text>
+<text x="590.0" y="343.0" font-size="11" text-anchor="middle" fill="#222">modelo star_type_model_prod · alias champion</text>
+<rect x="420" y="440" width="340" height="110" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="1.2"/>
+<text x="590.0" y="478.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">MinIO (S3) · API :9000 · consola :9001</text>
+<text x="590.0" y="492.0" font-size="11" text-anchor="middle" fill="#222">bucket data: raw/star y training/star</text>
+<text x="590.0" y="506.0" font-size="11" text-anchor="middle" fill="#222">bucket mlflow: artefactos de MLflow</text>
+<text x="590.0" y="520.0" font-size="11" text-anchor="middle" fill="#222">(los buckets los crea create_s3_buckets)</text>
+<rect x="420" y="620" width="340" height="70" rx="8" fill="#ffffff" stroke="#999999" stroke-width="1.2" stroke-dasharray="5,4"/>
+<text x="590.0" y="645.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">FastAPI · ejemplo Heart Disease · :8800</text>
+<text x="590.0" y="659.0" font-size="11" text-anchor="middle" fill="#222">heredado del ambiente base (solo perfil all)</text>
+<text x="590.0" y="673.0" font-size="11" text-anchor="middle" fill="#222">no interviene en el flujo estelar</text>
+<rect x="910" y="140" width="200" height="100" rx="8" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.2"/>
+<text x="1010.0" y="180.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">Web estelar (star_web)</text>
+<text x="1010.0" y="194.0" font-size="11" text-anchor="middle" fill="#222">FastAPI + página HTML</text>
+<text x="1010.0" y="208.0" font-size="11" text-anchor="middle" fill="#222">http://localhost:8801</text>
+<rect x="910" y="270" width="200" height="100" rx="8" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.2"/>
+<text x="1010.0" y="303.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">Notebook (Jupyter)</text>
+<text x="1010.0" y="317.0" font-size="11" text-anchor="middle" fill="#222">experiment_star_mlflow.ipynb</text>
+<text x="1010.0" y="331.0" font-size="11" text-anchor="middle" fill="#222">alternativa al DAG de</text>
+<text x="1010.0" y="345.0" font-size="11" text-anchor="middle" fill="#222">entrenamiento</text>
+<rect x="900" y="560" width="220" height="90" rx="8" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.2"/>
+<text x="1010.0" y="595.0" font-size="11" text-anchor="middle" fill="#222" font-weight="bold">Navegador</text>
+<text x="1010.0" y="609.0" font-size="11" text-anchor="middle" fill="#222">Airflow :8080 · MLflow :5001</text>
+<text x="1010.0" y="623.0" font-size="11" text-anchor="middle" fill="#222">MinIO :9001 · Web :8801</text>
+<polyline points="304.0,175.0 304.0,45.0 500.0,45.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="1010.0,140.0 1010.0,45.0 730.0,45.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="330.0,200.0 420.0,200.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)" marker-start="url(#s)"/>
+<polyline points="330.0,140.0 330.0,125.0 685.0,125.0 685.0,165.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="330.0,265.0 375.0,265.0 375.0,325.0 420.0,325.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="265.0,325.0 265.0,505.0 420.0,505.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="685.0,290.0 685.0,235.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="590.0,360.0 590.0,440.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="900.0,325.0 760.0,325.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<polyline points="1010.0,400.0 1010.0,495.0 760.0,495.0" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="335" y="24" width="133" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="402" y="35.5" font-size="10" text-anchor="middle" fill="#333">consulta SQL (ingesta)</text>
+<rect x="820" y="24" width="100" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="870" y="35.5" font-size="10" text-anchor="middle" fill="#333">lista de objetos</text>
+<rect x="334" y="178" width="83" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="375" y="189.5" font-size="10" text-anchor="middle" fill="#333">broker Celery</text>
+<rect x="439" y="117" width="122" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="500" y="128.5" font-size="10" text-anchor="middle" fill="#333">metadatos de Airflow</text>
+<rect x="331" y="287" width="88" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="375" y="298.5" font-size="10" text-anchor="middle" fill="#333">runs y modelos</text>
+<rect x="292" y="483" width="105" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="345" y="494.5" font-size="10" text-anchor="middle" fill="#333">CSV y checkpoints</text>
+<rect x="692" y="254" width="116" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="750" y="265.5" font-size="10" text-anchor="middle" fill="#333">metadatos de MLflow</text>
+<rect x="612" y="392" width="156" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="690" y="403.5" font-size="10" text-anchor="middle" fill="#333">artefactos (bucket mlflow)</text>
+<rect x="803" y="304" width="94" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="850" y="315.5" font-size="10" text-anchor="middle" fill="#333">carga el modelo</text>
+<rect x="825" y="474" width="111" height="16" fill="#ffffff" fill-opacity="0.92"/>
+<text x="880" y="485.5" font-size="10" text-anchor="middle" fill="#333">lee datos y modelo</text>
+<rect x="20" y="750" width="16" height="16" rx="3" fill="#dae8fc" stroke="#6c8ebf"/>
+<text x="42" y="762" font-size="11" fill="#444">Orquestación (Airflow)</text>
+<rect x="200" y="750" width="16" height="16" rx="3" fill="#fff2cc" stroke="#d6b656"/>
+<text x="222" y="762" font-size="11" fill="#444">Base de datos y cola</text>
+<rect x="368" y="750" width="16" height="16" rx="3" fill="#d5e8d4" stroke="#82b366"/>
+<text x="390" y="762" font-size="11" fill="#444">Almacenamiento S3</text>
+<rect x="518" y="750" width="16" height="16" rx="3" fill="#ffe6cc" stroke="#d79b00"/>
+<text x="540" y="762" font-size="11" fill="#444">Seguimiento de modelos</text>
+<rect x="698" y="750" width="16" height="16" rx="3" fill="#e1d5e7" stroke="#9673a6"/>
+<text x="720" y="762" font-size="11" fill="#444">Clientes</text>
+<rect x="794" y="750" width="16" height="16" rx="3" fill="#f5f5f5" stroke="#666666"/>
+<text x="816" y="762" font-size="11" fill="#444">Externo / carpeta</text>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpiYzNlY2ZjZi02OGQ0LTRmYTgtOTc2YS1lZmE2ZDI5MDQ3ZjQAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaHiFP1eonpHjGEYQWDj6NzIAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpkODlhMmI2ZS04MWUwLTRjMzQtYTI4Zi1iOGFiNmIyNWVkYmVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo23BMzdhRnx7/E4LsDgOSigAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggkKwB/SjxpRFaVgv1BxgeuFlaVeK0FIVqZgEoC3CMaIekZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaGRht3EGBKGufJCMlZVNKYkAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIE4LxseKH1/v+TGICi9ydZste7UHF7AbBQf10uJz95anZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GS1oZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmJjM2VjZmNmLTY4ZDQtNGZhOC05NzZhLWVmYTZkMjkwNDdmNC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmFjMjhlZDU0LTBmM2ItNGNkYy04ZWMwLTI1ODFiMjBiODM2YnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCCQrAH9KPGlEVpWC/UHGB64WVpV4rQUhWpmASgLcIxoh6JjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggv0jpDyy+Y6PXG7nr/A3i281AEkJT20UnMu3Ev2HYnVeiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg39Qef+VVmWybAqoVq67mDGbvG8tkkw+VTkTJG7XIRtt0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQL7Lc77WxH+3iNaFipTc4ioYa3dCA5XiLDmAhD5KN3lDwmY5/8MUNmqV+btVEQNzjjmhTSaOFml7Ehjqo/kNAf4=</c2pa:manifest></metadata></svg>
