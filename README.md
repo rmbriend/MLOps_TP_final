@@ -1,5 +1,27 @@
 # Clasificación de objetos astronómicos (SDSS) con Airflow, MLflow y MinIO
 
+Integrantes :
+
+-Miguel A. Azar
+-Gonzalo L. Rigirozzi
+-Roberto M. Briend
+
+Status del TP:
+
+De acuerdo a los requerimientos indicados en el README.md del trabajo practico:
+
+*## Tarea a realizar*
+
+*La tarea es implementar el modelo que desarrollaron en Aprendizaje de Máquina en este ambiente productivo.* **Completado**
+ Para ello, pueden usar y crear los buckets y bases de datos que necesiten. Lo mínimo que deben realizar es:
+
+*- Un DAG en Apache Airflow. Puede ser cualquier tarea que se desee realizar, como entrenar el modelo, un proceso ETL, etc.* **Completado**
+*- Un experimento en MLflow de búsqueda de hiperparámetro.* **Completado**
+*- Servir el modelo implementado en AMq1 en el servicio de RESTAPI.*  **Completado**
+*- Documentar (comentarios y docstring en scripts, notebooks, y asegurar que la documentación de FastAPI esté de acuerdo al modelo).* **Completado**
+
+
+
 Trabajo final de MLOps1 (CEIA, FIUBA). El proyecto clasifica objetos del catálogo
 [SDSS DR17](https://skyserver.sdss.org/dr17/) en tres clases, **GALAXY**, **QSO** y **STAR**, a partir de
 cinco bandas fotométricas (`u`, `g`, `r`, `i`, `z`) y cuatro colores (`u-g`, `g-r`, `r-i`, `i-z`).

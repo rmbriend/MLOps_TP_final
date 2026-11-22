@@ -179,7 +179,7 @@ dentro de cada tarea.
 |---|---|---|
 | `n_trials` | 250 | Búsqueda completa; usar 2 o 5 para una prueba breve. |
 | `seed` | 42 | Partición train/test y semilla de Optuna. |
-| `snapshot_sha256` | Vacío | Última ingesta exitosa al iniciar; opcionalmente indicar un hash concreto. |
+| `snapshot_sha256` | Sin valor (`null`) | Última ingesta exitosa al iniciar; opcionalmente indicar un hash concreto. |
 | `min_delta` | 0.0 | Se exige F1 candidato > F1 champion + este valor; 0.01 equivale a un punto de F1. |
 
 El DAG no se dispara automáticamente con la ingesta. Su ejecución tiene seis
