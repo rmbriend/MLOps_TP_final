@@ -2,9 +2,11 @@
 
 Integrantes :
 
--Miguel A. Azar
--Gonzalo L. Rigirozzi
--Roberto M. Briend
+-Miguel A. Azar (a2702)
+
+-Gonzalo L. Rigirozzi (a2712)
+
+-Roberto M. Briend (a2608)
 
 Status del TP:
 
