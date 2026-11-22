@@ -15,11 +15,15 @@ De acuerdo a los requerimientos indicados en el README.md del trabajo practico:
 *## Tarea a realizar*
 
 *La tarea es implementar el modelo que desarrollaron en Aprendizaje de Máquina en este ambiente productivo.* **Completado**
- Para ello, pueden usar y crear los buckets y bases de datos que necesiten. Lo mínimo que deben realizar es:
+ 
+ Lo mínimo que deben realizar es:
 
 *- Un DAG en Apache Airflow. Puede ser cualquier tarea que se desee realizar, como entrenar el modelo, un proceso ETL, etc.* **Completado**
+
 *- Un experimento en MLflow de búsqueda de hiperparámetro.* **Completado**
+
 *- Servir el modelo implementado en AMq1 en el servicio de RESTAPI.*  **Completado**
+
 *- Documentar (comentarios y docstring en scripts, notebooks, y asegurar que la documentación de FastAPI esté de acuerdo al modelo).* **Completado**
 
 
